@@ -6,7 +6,7 @@ export const CreatePost = () => {
   const onSubmit = async (event) => {
     event.preventDefault();
     if (title.length < 1) return;
-    await axios.post("http://localhost:4000/posts", {
+    await axios.post("http://posts.com/posts/create", {
       title,
     });
     setTitle("");
@@ -20,7 +20,7 @@ export const CreatePost = () => {
           <input
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            className="form-control w-25"
+            className="form-control w-75"
             id="inputPost"
           />
         </div>

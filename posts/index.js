@@ -7,20 +7,15 @@ import axios from "axios";
 const app = express();
 const PORT = 4000;
 app.use(bodyParser.json({ type: "application/json" }));
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(
-  cors({
-    origin: "*",
-    methods: ["GET", "PUT", "POST"],
-  })
-);
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cors());
 const posts = {};
 
 app.get("/posts", (req, res) => {
   res.send(posts);
 });
 
-app.post("/posts", async (req, res) => {
+app.post("/posts/create", async (req, res) => {
   const id = randomBytes(4).toString("hex");
   const { title } = req.body;
   if (!title) {
@@ -34,7 +29,7 @@ app.post("/posts", async (req, res) => {
     title,
   };
 
-  await axios.post("http://localhost:5000/events", {
+  await axios.post("http://event-bus-srv:5000/events", {
     type: "PostCreated",
     data: {
       id,
@@ -51,5 +46,6 @@ app.post("/events", (req, res) => {
   res.send({});
 });
 app.listen(PORT, () => {
+  console.log("v55");
   console.log(`Listening on ${PORT}`);
 });
